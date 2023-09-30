@@ -22,7 +22,8 @@ public class Email
     */
     private String firstName;
     private String lastName;
-    private String password;
+    private final String PASSWORD;
+    private final int PWDLENGTH = 10;
     private String department;
     private int emailboxCapacity;
     private String alternateEmail;
@@ -33,28 +34,13 @@ public class Email
         this.lastName = lastName;
         System.out.println("Email created: " + firstName + " " + lastName);
         this.department = setDepartment();
-        this.password = generatePassword();
+        this.PASSWORD = generatePassword();
     }
 
     // Ask for the department
-
     private String setDepartment() {
-        System.out.println("DEPARTMENT CODES:\n1: Sales\n2: Development\n3: Accounting\n0: None\nType department code below:");
         Scanner depIn = new Scanner(System.in);
         int depNum = depIn.nextInt();
-
-        /*
-        String depOut = null;
-        if (depNum == 1){
-            depOut = "Sales";
-        } else if (depNum == 2){
-            depOut = "Development";
-        } else if (depNum == 3) {
-            depOut = "Accounting";
-        } else {
-            depOut = "";
-        }
-        */
         /*
         String depOut = null;
         switch (depNum) {
@@ -72,7 +58,6 @@ public class Email
                 break;
         }
         */
-
         String depOut = switch (depNum) {
             case 1 -> "Sales";
             case 2 -> "Development";
@@ -80,20 +65,16 @@ public class Email
             case 0 -> "";
             default -> "Insert a DEPARTMENT CODE from between 0 to 4";
         };
-
         System.out.println(depOut);
         return depOut;
     };
 
     // Generate a random password
-
     private String generatePassword(){
-
         String lowerCase = "qwertyuiopasdfghjklzxcvbnm";
         String upperCase = "QWERTYUIOPASDFGHJKLZXCVBNM";
         String number = "1234567890";
         String characters = "!£$%&#?@";
-
         /*
         Note:
         Math.random() gives a random number between 0 and 1 (or referred as 1 unit).
@@ -112,38 +93,31 @@ public class Email
             (Math.random + 3) * 5
 
          */
-
-        int pwdlength = 10;
-        String pwd = "";
-
-        for (int i = 0; i < pwdlength; i++){
-
+        StringBuilder pwd = new StringBuilder();
+        for (int i = 0; i < PWDLENGTH; i++){
             int rand = (int) (Math.random() * 4);
-
             switch (rand) {
                 case 0:
                     rand = (int) (Math.random() * lowerCase.length());
-                    pwd += String.valueOf(lowerCase.charAt(rand));
+                    pwd.append(String.valueOf(lowerCase.charAt(rand)));
                     break;
                 case 1:
                     rand = (int) (Math.random() * upperCase.length());
-                    pwd += String.valueOf(upperCase.charAt(rand));
+                    pwd.append(String.valueOf(upperCase.charAt(rand)));
                     break;
                 case 2:
                     rand = (int) (Math.random() * number.length());
-                    pwd += String.valueOf(number.charAt(rand));
+                    pwd.append(String.valueOf(number.charAt(rand)));
                     break;
                 case 3:
                     rand = (int) (Math.random() * characters.length());
-                    pwd += String.valueOf(characters.charAt(rand));
+                    pwd.append(String.valueOf(characters.charAt(rand)));
                     break;
             }
-
         }
 
         System.out.println("Your email PASSWORD is as follows: \n" + pwd);
-
-        return pwd;
+        return pwd.toString();
     };
 
     // Set the mailbox capacity
